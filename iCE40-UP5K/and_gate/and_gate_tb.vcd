@@ -1,0 +1,60 @@
+$date
+	Wed Oct 18 09:36:30 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module add_gate_tb $end
+$var wire 3 ! out [2:0] $end
+$var reg 2 " in [1:0] $end
+$scope module uut $end
+$var wire 2 # not_pmod [1:0] $end
+$var wire 2 $ pmod [1:0] $end
+$var wire 3 % led [2:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 %
+b11 $
+b0 #
+b11 "
+b0 !
+$end
+#10000
+b10 #
+b1 "
+b1 $
+#20000
+b0 #
+b11 "
+b11 $
+#30000
+b11 !
+b11 %
+b1 #
+b10 "
+b10 $
+#40000
+b0 !
+b0 %
+b0 #
+b11 "
+b11 $
+#50000
+b111 !
+b111 %
+b11 #
+b0 "
+b0 $
+#60000
+b0 !
+b0 %
+b0 #
+b11 "
+b11 $
+#100000

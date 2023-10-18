@@ -1,0 +1,8 @@
+# LEDs
+set_io              led[0]     41
+set_io              led[1]   40
+set_io              led[2]    39
+
+# switches
+set_io  -pullup yes pmod[0]     26 # IOT_38B
+set_io  -pullup yes pmod[1]     27 # IOT_39A

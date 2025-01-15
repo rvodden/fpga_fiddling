@@ -1,6 +1,6 @@
 pcf_file = ../common/io.pcf
 
-leds.json: leds.v
+leds.json: leds.v clockworks.v
 	yosys -p "synth_ice40 -top SOC -json $@" $<
 
 leds.asc: leds.json
@@ -10,7 +10,7 @@ leds.bin: leds.asc
 	icepack $< $@
 
 leds_tb: leds_tb.v leds.v
-	iverilog -DBENCH -DBOARD_FREQ=10 $^ -o $@
+	iverilog -g2012 -DBENCH -DBOARD_FREQ=10 leds_tb.v leds.v -o $@
 
 leds_test.v: leds.json
 	yosys -o $@ $<

@@ -1,12 +1,15 @@
-   module SOC (
-       input  CLK,        
-       output [2:0] LEDS
-   );
+module SOC (
+    input  CLK,        
+    input  RESET,      
+    output [4:0] LEDS, 
+    input  RXD,        
+    output TXD         
+);
 
-   reg [2:0] count = 0;
+   reg [4:0] count = 0;
    always @(posedge CLK) begin
       count <= count + 1;
    end
    assign LEDS = count;
 
-   endmodule
+endmodule

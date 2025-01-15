@@ -1,6 +1,6 @@
 module bench();
    reg CLK;
-   wire [2:0] LEDS;
+   wire [4:0] LEDS;
 
    SOC uut(
      .CLK(CLK),

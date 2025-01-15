@@ -1,0 +1,81 @@
+#! /opt/oss-cad-suite/bin/vvp
+:ivl_version "13.0 (devel)" "(s20221226-593-g8cd7bb358)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/opt/oss-cad-suite/lib/ivl/system.vpi";
+:vpi_module "/opt/oss-cad-suite/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/oss-cad-suite/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/oss-cad-suite/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/oss-cad-suite/lib/ivl/va_math.vpi";
+S_0x5555577c5de0 .scope module, "bench" "bench" 2 1;
+ .timescale 0 0;
+v0x555557811bb0_0 .var "CLK", 0 0;
+v0x555557811c70_0 .net "LEDS", 4 0, L_0x555557811e10;  1 drivers
+v0x555557811d40_0 .var "prev_LEDS", 2 0;
+S_0x5555577c5f70 .scope module, "uut" "SOC" 2 5, 3 1 0, S_0x5555577c5de0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "CLK";
+    .port_info 1 /INPUT 1 "RESET";
+    .port_info 2 /OUTPUT 5 "LEDS";
+    .port_info 3 /INPUT 1 "RXD";
+    .port_info 4 /OUTPUT 1 "TXD";
+L_0x555557811e10 .functor BUFZ 5, v0x555557811a30_0, C4<00000>, C4<00000>, C4<00000>;
+v0x5555578003d0_0 .net "CLK", 0 0, v0x555557811bb0_0;  1 drivers
+v0x5555578116b0_0 .net "LEDS", 4 0, L_0x555557811e10;  alias, 1 drivers
+o0x7f5cb28fa078 .functor BUFZ 1, c4<z>; HiZ drive
+v0x555557811790_0 .net "RESET", 0 0, o0x7f5cb28fa078;  0 drivers
+o0x7f5cb28fa0a8 .functor BUFZ 1, c4<z>; HiZ drive
+v0x555557811860_0 .net "RXD", 0 0, o0x7f5cb28fa0a8;  0 drivers
+o0x7f5cb28fa0d8 .functor BUFZ 1, c4<z>; HiZ drive
+v0x555557811920_0 .net "TXD", 0 0, o0x7f5cb28fa0d8;  0 drivers
+v0x555557811a30_0 .var "count", 4 0;
+E_0x5555578010e0 .event posedge, v0x5555578003d0_0;
+    .scope S_0x5555577c5f70;
+T_0 ;
+    %pushi/vec4 0, 0, 5;
+    %store/vec4 v0x555557811a30_0, 0, 5;
+    %end;
+    .thread T_0;
+    .scope S_0x5555577c5f70;
+T_1 ;
+    %wait E_0x5555578010e0;
+    %load/vec4 v0x555557811a30_0;
+    %addi 1, 0, 5;
+    %assign/vec4 v0x555557811a30_0, 0;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_0x5555577c5de0;
+T_2 ;
+    %pushi/vec4 0, 0, 3;
+    %store/vec4 v0x555557811d40_0, 0, 3;
+    %end;
+    .thread T_2;
+    .scope S_0x5555577c5de0;
+T_3 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x555557811bb0_0, 0, 1;
+T_3.0 ;
+    %delay 1, 0;
+    %load/vec4 v0x555557811bb0_0;
+    %inv;
+    %store/vec4 v0x555557811bb0_0, 0, 1;
+    %load/vec4 v0x555557811c70_0;
+    %load/vec4 v0x555557811d40_0;
+    %pad/u 5;
+    %cmp/ne;
+    %jmp/0xz  T_3.2, 4;
+    %vpi_call 2 16 "$display", "LEDS = %b", v0x555557811c70_0 {0 0 0};
+T_3.2 ;
+    %load/vec4 v0x555557811c70_0;
+    %pad/u 3;
+    %assign/vec4 v0x555557811d40_0, 0;
+    %jmp T_3.0;
+T_3.1 ;
+    %end;
+    .thread T_3;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "leds_tb.v";
+    "leds.v";

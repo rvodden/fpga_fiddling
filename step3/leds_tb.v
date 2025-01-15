@@ -1,13 +1,13 @@
 module bench();
    reg CLK;
-   wire [2:0] LEDS;
+   wire [4:0] LEDS;
 
    SOC uut(
      .CLK(CLK),
      .LEDS(LEDS)
    );
 
-   reg[2:0] prev_LEDS = 0;
+   reg[4:0] prev_LEDS = 0;
    initial begin
       CLK = 0;
       forever begin

@@ -30,21 +30,7 @@
  */
 
 `include "i2c.vh"
-
-task automatic i2c_idle_next(
-    input         write,
-    input   [3:0] cmd,
-
-    output        ready_out,
-    output        state_next,
-    output [15:0] ctr_next
-);
-    ready_out = 1'b1;
-    if(write && cmd==k_START_CMD) begin
-        state_next = k_start1;
-        ctr_next = 15'b0;
-    end
-endtask
+`include "next_idle/next_idle.v"
 
 module i2c (
     input        clk, 
@@ -158,20 +144,16 @@ module i2c (
 
         case (state_reg)
 
-            k_idle: i2c_idle_next( 
-               write, cmd, ready_out, state_next, ctr_next
+            k_idle: next_idle( 
+                write, cmd, ready_out, state_next, ctr_next
             );
 
             // start contition is defined in section 3.1.4 of the I2C Spec (see intro)
 
-            k_start1: begin
-                sda_out = 1'b0;
-                if(ctr_reg == dbl_clock_divisor_reg) begin // if we're half way through the SCL cycle
-                    state_next = k_start2;
-                    ctr_next   = 15'b0;
-                end
-            end
-
+            k_start1: next_start1(
+                ctr_reg, dbl_clock_divisor_reg, state_next, ctr_next
+            );
+            
             k_start2: begin
                 sda_out = 1'b0;
                 scl_out = 1'b0;

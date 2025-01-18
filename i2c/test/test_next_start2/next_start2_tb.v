@@ -5,6 +5,7 @@ module next_start2_tb;
     reg [15:0] dbl_clock_divisor_reg = 16'hFF;
     
     reg        sda_out;
+    reg        scl_out;
     reg  [3:0] state_next;
     reg [15:0] ctr_next;
     
@@ -15,6 +16,7 @@ module next_start2_tb;
             ctr_reg,
             dbl_clock_divisor_reg,
             sda_out,
+            scl_out,
             state_next,
             ctr_next
         );
@@ -23,6 +25,7 @@ module next_start2_tb;
         when_ctr_reg_is_at(~dbl_clock_divisor_reg);
         #1
         then_sda_out_should_be(1'b1);
+        then_scl_out_should_be(1'b1);
         then_state_next_should_be_unknown();
         then_ctr_next_should_unknown();
         #1
@@ -48,6 +51,14 @@ module next_start2_tb;
         $write("THen sda_out should be %d...", value );
         if( sda_out === value ) $display(" success.");
         else $error("sda_out is not %b but %b", value, sda_out);
+    endtask;
+    
+    task then_scl_out_should_be(
+        input value
+    );
+        $write("THen scl_out should be %d...", value );
+        if( scl_out === value ) $display(" success.");
+        else $error("scl_out is not %b but %b", value, scl_out);
     endtask;
     
     task then_state_next_should_be(

@@ -21,6 +21,9 @@ next_start1_tb: test/test_next_start1/next_start1_tb.v hw/next_start1/next_start
 next_start2_tb: test/test_next_start2/next_start2_tb.v hw/next_start2/next_start2.v
 	iverilog -Wall -g2012 -DBENCH -DBOARD_FREQ=10 -s $@ $^ -o $@
 
+next_hold_tb: test/test_next_hold/next_hold_tb.v hw/next_hold/next_hold.v
+	iverilog -Wall -g2012 -DBENCH -DBOARD_FREQ=10 -s $@ $^ -o $@
+
 i2c_test.v: i2c.json
 	yosys -o $@ $<
 

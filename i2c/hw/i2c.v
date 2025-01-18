@@ -61,7 +61,7 @@ module i2c (
     reg scl_reg, scl_out;  // registers for the I2C output lines
     reg sca_reg, sca_out; 
     reg receiving;         // when set, the slave is driving the sda line
-    reg nack;              // indicates that the master need a slave to resend a byte
+    reg nack;              // indicates that the master needs a slave to resend a byte
 
     reg        data_phase;            // true if we're sending or receiving data - false if we're in stop, start, restart, idle or hold
     reg [15:0] clock_divisor_reg;     // holds the clock divisor
@@ -112,16 +112,16 @@ module i2c (
             state     <= k_idle;
             bit_reg   <=  4'b0;
             cmd_reg   <=  3'b0;
-            tx_buffer <=  8'b0;
-            rx_buffer <=  8'b0;
+            tx_reg    <=  8'b0;
+            rx_reg    <=  8'b0;
             ctr_reg   <= 16'b0;
         end
         else begin
             state     <= state_next;
             bit_reg   <= bit_next;
             cmd_reg   <= cmd_next;
-            tx_buffer <= tx_next;
-            rx_buffer <= rx_next;
+            tx_reg    <= tx_next;
+            rx_reg    <= rx_next;
             ctr_reg   <= ctr_next;
         end
 
@@ -151,17 +151,16 @@ module i2c (
             // start contition is defined in section 3.1.4 of the I2C Spec (see intro)
 
             k_start1: next_start1(
-                ctr_reg, dbl_clock_divisor_reg, state_next, ctr_next
+                ctr_reg, dbl_clock_divisor_reg, sda_out, state_next, ctr_next
             );
             
-            k_start2: begin
-                sda_out = 1'b0;
-                scl_out = 1'b0;
-                if(ctr_reg == clock_divisor_reg) begin
-                    state_next = k_hold;
-                    ctr_next   = 15'b0;
-                end
-            end
+            k_start2: next_start2(
+                ctr_reg, dbl_clock_divisor_reg, sda_out, scl_out, state_next, ctr_next
+            );
+
+            k_hold: next_hold(
+                write, cmd, ready_out, sda_out, scl_out, bit_next, tx_next, cmd_next, state_next, ctr_next
+            );
 
         endcase
     end

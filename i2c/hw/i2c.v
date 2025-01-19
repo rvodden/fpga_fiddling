@@ -1,6 +1,6 @@
 /*
  * This is about as simple as an I2C master can get. 
- * We have some (major) limiations:
+ * We have some (major) limitations:
  *    * we MUST be the only master on the bus
  *    * we do not support arbitration
  *    * we do not support slave clock stretching
@@ -30,7 +30,6 @@
  */
 
 `include "i2c.vh"
-`include "next_idle/next_idle.v"
 
 module i2c (
     input        clk, 
@@ -62,6 +61,7 @@ module i2c (
     reg sca_reg, sca_out; 
     reg receiving;         // when set, the slave is driving the sda line
     reg nack;              // indicates that the master needs a slave to resend a byte
+    reg done_tick_out;     // indicates that the master has completed tx or rx of a byte
 
     reg        data_phase;            // true if we're sending or receiving data - false if we're in stop, start, restart, idle or hold
     reg [15:0] clock_divisor_reg;     // holds the clock divisor
@@ -76,8 +76,8 @@ module i2c (
     // if we're receiving set to Z else set to the value of sda_reg
     assign SDA = (receiving || sda_reg) ? 1'bZ : 1'b0;
 
-    assign data_out  = rx_buffer[8:1];
-    assign ack       = rx_buffer[0];
+    assign data_out  = rx_reg[8:1];
+    assign ack       = rx_reg[0];
     assign done_tick = done_tick_out;
     assign ready     = ready_reg;
 
@@ -104,6 +104,14 @@ module i2c (
 
 
 /* State Machine */
+
+    // includes
+    `include "next_idle/next_idle.v"
+    `include "next_idle/next_start1.v"
+    `include "next_idle/next_start2.v"
+    `include "next_idle/next_hold.v"
+    `include "next_idle/next_data1.v"
+    `include "next_idle/next_data2.v"
 
     // registers
 
@@ -160,6 +168,30 @@ module i2c (
 
             k_hold: next_hold(
                 write, cmd, ready_out, sda_out, scl_out, bit_next, tx_next, cmd_next, state_next, ctr_next
+            );
+
+            k_data1: next_data1(
+                ctr_reg,
+                clock_divisor_reg,
+                tx_reg,
+                sda_out,
+                scl_out,
+                data_phase,
+                state_next,
+                ctr_next
+            );
+
+            k_data2: next_data2(
+                sda,
+                ctr_reg,
+                clock_divisor_reg,
+                tx_reg,
+                rx_reg,
+                sda_out,
+                data_phase,
+                rx_next,
+                state_next,
+                ctr_next
             );
 
         endcase

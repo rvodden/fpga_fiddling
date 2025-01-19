@@ -18,6 +18,15 @@ pcf_file = ../common/io.pcf
 %_synth: %_test.v %_tb.v
 	iverilog -Wall -g2012 -o $@ -D POST_SYNTHESIS $^ `yosys-config --datdir/ice40/cells_sim.v`
 
+test: i2c_tb next_idle_tb next_start1_tb next_start2_tb next_hold_tb next_data1_tb next_data2_tb
+	./i2c_tb
+	./next_idle_tb
+	./next_start1_tb
+	./next_start2_tb
+	./next_hold_tb
+	./next_data1_tb
+	./next_data2_tb
+
 prog: i2c.bin
 	iceprog -S i2c.bin
 
@@ -27,4 +36,4 @@ prog_flash: i2c.bin
 clean:
 	rm -f *.json *.asc *.bin *_tb *_synth *_test.v *_test *_tb 
 
-.PHONY: clean prog prog_flash
+.PHONY: clean prog prog_flash test

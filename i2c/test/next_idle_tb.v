@@ -36,26 +36,26 @@ module next_idle_tb;
     task test_statsis_in_k_idle_given_non_k_start_command;
         when_were_given_a_command("k_RESTART_CMD", k_RESTART_CMD);
         #1
-        then_state_next_should_unknown();
-        then_ctr_next_should_unknown();
+        then_state_next_should_be_unknown();
+        then_ctr_next_should_be_unknown();
         then_ready_out_should_be(1'b1);
         
         when_were_given_a_command("k_STOP_CMD", k_STOP_CMD);
         #1
-        then_state_next_should_unknown();
-        then_ctr_next_should_unknown();
+        then_state_next_should_be_unknown();
+        then_ctr_next_should_be_unknown();
         then_ready_out_should_be(1'b1);
         
         when_were_given_a_command("k_READ_CMD", k_READ_CMD);
         #1
-        then_state_next_should_unknown();
-        then_ctr_next_should_unknown();
+        then_state_next_should_be_unknown();
+        then_ctr_next_should_be_unknown();
         then_ready_out_should_be(1'b1);
         
         when_were_given_a_command("k_WRITE_CMD", k_WRITE_CMD);
         #1
-        then_state_next_should_unknown();
-        then_ctr_next_should_unknown();
+        then_state_next_should_be_unknown();
+        then_ctr_next_should_be_unknown();
         then_ready_out_should_be(1'b1);
     endtask
 

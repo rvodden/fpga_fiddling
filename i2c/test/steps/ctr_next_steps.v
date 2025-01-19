@@ -1,4 +1,4 @@
-task then_ctr_next_should_unknown();
+task then_ctr_next_should_be_unknown();
     $write("Then ctr_next should be unknown...");
     if ( $isunknown(ctr_next) ) $display(" success.");
     else $error("ctr_next is not unknown, but %b.", state_next);

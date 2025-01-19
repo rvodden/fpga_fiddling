@@ -2,7 +2,7 @@
 
 module next_start2_tb;
     reg [15:0] ctr_reg;
-    reg [15:0] dbl_clock_divisor_reg = 16'hFF;
+    reg [15:0] dbl_clock_divisor_reg = 16'hFFFF;
     
     reg        sda_out;
     reg        scl_out;

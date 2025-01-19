@@ -1,6 +1,7 @@
 `default_nettype none
-`include "i2c.vh"
+`include "include/i2c.vh"
     
-`include "i2c_next_idle_tb.v"
+module i2c_tb;
+endmodule
 
 `default_nettype wire

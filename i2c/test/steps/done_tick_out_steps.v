@@ -5,7 +5,7 @@ task then_done_tick_out_should_be_unknown();
 endtask
     
 task then_done_tick_out_should_be(
-    input [15:0] value
+    input value
 );
     $write("THen done_tick_out should be %d...", value );
     if( done_tick_out === value ) $display(" success.");

@@ -9,13 +9,13 @@
  *
  *            clk: the clock
  *          reset: resets all the registers to an initial state - it is asynchronous
- *  clock_divisor: set this to half the number of `clk` cycles in an `SCL` cycle. So
- *                 if you have a 48MHz `clk` and you want a 100KHz `SCL` set this to 480.
+ *          write: when set the external system asserts that the inputs are in a valid
+ *                 state and can be stored in internal registers
+ *  clock_divisor: set this to half the number of clk cycles in an SCL cycle. So
+ *                 if you have a 48MHz clk and you want a 100KHz SCL set this to 480.
  *        data_in: this is the data to be sent during write operations, the LSB is used
  *                 for ack/nack during read operations
  *            cmd: 000: start; 001: restart; 002: stop; 003: read; 004 write;
- *          write: when set the external system asserts that the inputs are in a valid
- *                 state and can be stored in internal registers
  *
  * Outputs:
  *
@@ -29,11 +29,12 @@
  *
  */
 
-`include "i2c.vh"
+`include "include/i2c.vh"
 
 module i2c (
     input        clk, 
     input        reset,
+    input        write,
     input [15:0] clock_divisor,
     input [7:0]  data_in,
     input [2:0]  cmd,
@@ -48,7 +49,6 @@ module i2c (
 
 /* Parameters */
 
-
     // internal registers
     reg  [3:0] state_reg, state_next; // which state we are currently in.
     reg  [2:0] cmd_reg,   cmd_next;   // command we're currently executing
@@ -58,20 +58,23 @@ module i2c (
     reg  [3:0] bit_reg,   bit_next;   // when in the data_phase, keeps track of which bit in the byte we're on
 
     reg scl_reg, scl_out;  // registers for the I2C output lines
-    reg sca_reg, sca_out; 
+    reg sda_reg, sda_out; 
     reg receiving;         // when set, the slave is driving the sda line
     reg nack;              // indicates that the master needs a slave to resend a byte
+    reg ready_out;         // indicates that the master is ready to recceive a new command
     reg done_tick_out;     // indicates that the master has completed tx or rx of a byte
 
     reg        data_phase;            // true if we're sending or receiving data - false if we're in stop, start, restart, idle or hold
-    reg [15:0] clock_divisor_reg;     // holds the clock divisor
-    reg [16:0] dbl_clock_divisor_reg; // holds double the clock divisor
+    
+    // internal wires
+    wire [15:0] clock_divisor_reg;     // holds the clock divisor
+    wire [15:0] dbl_clock_divisor_reg; // holds double the clock divisor
 
 
 /* Output Wiring */
 
     // master always drives clock
-    assign SCL = sca_reg ? 1'bZ : 1'b0;
+    assign SCL = scl_reg ? 1'bZ : 1'b0;
 
     // if we're receiving set to Z else set to the value of sda_reg
     assign SDA = (receiving || sda_reg) ? 1'bZ : 1'b0;
@@ -79,53 +82,60 @@ module i2c (
     assign data_out  = rx_reg[8:1];
     assign ack       = rx_reg[0];
     assign done_tick = done_tick_out;
-    assign ready     = ready_reg;
+    assign ready     = ready_out;
 
 
 /* Input Wiring */
     assign nack = data_in[0]; // used by the master during reveive operations 
 
-
 /* Internal Wiring */
 
     // we are receiving when we're in the data phase and the first 8 bits of a read operation or the final bit of a write operation (ack)
-    assign receiving = data_phase && ( (cmd_reg == READ_CMD && bit_reg < 8) || (cmd_reg == WRITE_CMD && bit_reg == 8) );
+    assign receiving = data_phase && ( (cmd_reg == k_READ_CMD && bit_reg < 8) || (cmd_reg == k_WRITE_CMD && bit_reg == 8) );
 
     // update the output registers on clk or reset
     always @(posedge clk or posedge reset) begin
         if(reset) begin
-            sda_reg <= 1'b0;
-            scl_reg <= 1'b0;
+            scl_reg <= 1'b1;
+            sda_reg <= 1'b1;
         end else begin
+            scl_reg <= scl_out;
             sda_reg <= sda_out;
-            scl_reg <= scL_out;
         end
     end
 
+    assign clock_divisor_reg = clock_divisor;
+    assign dbl_clock_divisor_reg = { clock_divisor[14:0] , 1'b0 };
 
 /* State Machine */
 
     // includes
-    `include "next_idle/next_idle.v"
-    `include "next_idle/next_start1.v"
-    `include "next_idle/next_start2.v"
-    `include "next_idle/next_hold.v"
-    `include "next_idle/next_data1.v"
-    `include "next_idle/next_data2.v"
+    `include "hw/next_idle.v"
+    `include "hw/next_start1.v"
+    `include "hw/next_start2.v"
+    `include "hw/next_hold.v"
+    `include "hw/next_data1.v"
+    `include "hw/next_data2.v"
+    `include "hw/next_data3.v"
+    `include "hw/next_data4.v"
+    `include "hw/next_data_end.v"
+    `include "hw/next_stop1.v"
+    `include "hw/next_stop2.v"
+    `include "hw/next_restart.v"
 
     // registers
 
     always @(posedge clk or posedge reset)
         if (reset) begin
-            state     <= k_idle;
+            state_reg <= k_idle;
             bit_reg   <=  4'b0;
             cmd_reg   <=  3'b0;
-            tx_reg    <=  8'b0;
-            rx_reg    <=  8'b0;
+            tx_reg    <=  9'b0;
+            rx_reg    <=  9'b0;
             ctr_reg   <= 16'b0;
         end
         else begin
-            state     <= state_next;
+            state_reg <= state_next;
             bit_reg   <= bit_next;
             cmd_reg   <= cmd_next;
             tx_reg    <= tx_next;
@@ -138,65 +148,67 @@ module i2c (
     always @(*) begin
         // defaults
 
-        state_next = state_reg;
-        ctr_next   = ctr_state + 1;
-        bit_next   = bit_reg;
-        tx_next    = tx_reg;
-        rx_next    = rx_reg;
-        cmd_next   = cmd_reg;
-        scl_out    = 1'b1;
-        sda_out    = 1'b1;
-        data_phase = 1'b0;
+        state_next    = state_reg;
+        ctr_next      = ctr_reg + 1;
+        bit_next      = bit_reg;
+        tx_next       = tx_reg;
+        rx_next       = rx_reg;
+        cmd_next      = cmd_reg;
+        done_tick_out = 1'b0;
+        ready_out     = 1'b0;
+        scl_out       = 1'b1;
+        sda_out       = 1'b1;
+        data_phase    = 1'b0;
 
         // state transitions
 
         case (state_reg)
 
-            k_idle: next_idle( 
-                write, cmd, ready_out, state_next, ctr_next
-            );
+            k_idle: next_idle();
 
             // start contition is defined in section 3.1.4 of the I2C Spec (see intro)
 
             k_start1: next_start1(
-                ctr_reg, dbl_clock_divisor_reg, sda_out, state_next, ctr_next
             );
             
             k_start2: next_start2(
-                ctr_reg, dbl_clock_divisor_reg, sda_out, scl_out, state_next, ctr_next
             );
 
             k_hold: next_hold(
-                write, cmd, ready_out, sda_out, scl_out, bit_next, tx_next, cmd_next, state_next, ctr_next
             );
 
             k_data1: next_data1(
-                ctr_reg,
-                clock_divisor_reg,
-                tx_reg,
-                sda_out,
-                scl_out,
-                data_phase,
-                state_next,
-                ctr_next
             );
 
             k_data2: next_data2(
-                sda,
-                ctr_reg,
-                clock_divisor_reg,
-                tx_reg,
-                rx_reg,
-                sda_out,
-                data_phase,
-                rx_next,
-                state_next,
-                ctr_next
+            );
+            
+            k_data3: next_data3(
+            );
+            
+            k_data4: next_data4(
             );
 
+            k_data_end: next_data_end(
+            );
+            
+            k_restart: next_restart(
+            );
+
+            k_stop1: next_stop1(
+            );
+
+            k_stop2: next_stop2(
+            );
+
+            default: next_stop2(
+            ); // if we get an invalid command, give up and start again.
         endcase
     end
 
+
+    // output wiring
+    
 endmodule
 
 

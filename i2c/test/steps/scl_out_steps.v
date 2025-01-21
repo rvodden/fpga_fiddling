@@ -5,4 +5,3 @@ task then_scl_out_should_be(
     if( scl_out === value ) $display(" success.");
     else $error("scl_out is not %b but %b", value, scl_out);
 endtask;
-    

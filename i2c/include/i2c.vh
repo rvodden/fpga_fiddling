@@ -1,6 +1,8 @@
 `ifndef _i2c_vh
 `define _i2c_vh
 
+/* verilator lint_off UNUSEDPARAM */
+
 // commands
 localparam 
         k_START_CMD   = 3'd0, // Send a start condition
@@ -23,5 +25,7 @@ localparam
         k_data3    = 4'd9,
         k_data4    = 4'd10,
         k_data_end = 4'd11; // finished sending or receiving a bit
+
+/* verilator lint_on UNUSEDPARAM */
 
 `endif  // _i2c_vh

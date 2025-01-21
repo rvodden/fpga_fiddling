@@ -5,7 +5,7 @@ task then_rx_next_should_be_unknown();
 endtask
     
 task then_rx_next_should_be(
-    input [15:0] value
+    input [8:0] value
 );
     $write("THen rx_next should be %d...", value );
     if( rx_next === value ) $display(" success.");

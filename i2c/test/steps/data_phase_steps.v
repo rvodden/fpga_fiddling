@@ -1,5 +1,5 @@
 task then_data_phase_should_be(
-    input    [3:0] value
+    input value
 );
     $write("Then data_phase should be %b...", value);
     if ( data_phase === value )

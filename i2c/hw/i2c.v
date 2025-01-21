@@ -64,7 +64,7 @@ module i2c (
     reg ready_out;         // indicates that the master is ready to recceive a new command
     reg done_tick_out;     // indicates that the master has completed tx or rx of a byte
 
-    reg        data_phase;            // true if we're sending or receiving data - false if we're in stop, start, restart, idle or hold
+    reg data_phase;        // true if we're sending or receiving data - false if we're in stop, start, restart, idle or hold
     
     // internal wires
     wire [15:0] clock_divisor_reg;     // holds the clock divisor

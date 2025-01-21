@@ -1,7 +1,9 @@
 `default_nettype none
 `include "include/i2c.vh"
 `timescale 1ns/100ps
-    
+
+`include "hw/i2c.v"
+
 module i2c_tb();
     reg        clk;
     reg        reset;

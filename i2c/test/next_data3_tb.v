@@ -24,8 +24,8 @@ module next_data3_tb;
         #1
         then_sda_out_should_be(tx_reg[8]);
         then_data_phase_should_be(1'b1);
-        then_state_next_should_be_unknown();
-        then_ctr_next_should_be_unknown();
+        then_state_next_should_be(k_data3);
+        then_ctr_next_should_be(ctr_reg + 1);
         #1
         when_ctr_reg_is_at(clock_divisor_reg);
         #1

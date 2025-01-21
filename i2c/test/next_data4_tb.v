@@ -45,8 +45,8 @@ module next_data4_tb;
         then_data_phase_should_be(1'b1);
         then_ctr_next_should_be(16'b0);
         then_done_tick_out_should_be(1'b1);
-        then_tx_next_should_be_unknown();
-        then_bit_next_should_be_unknown();
+        then_tx_next_should_be(tx_reg);
+        then_bit_next_should_be(4'b0);
         then_state_next_should_be(k_data_end);
         #1
         bit_reg = 4'd1; // tx not finished
@@ -55,7 +55,7 @@ module next_data4_tb;
         then_scl_out_should_be(1'b0);
         then_data_phase_should_be(1'b1);
         then_ctr_next_should_be(16'b0);
-        then_done_tick_out_should_be_unknown;
+        then_done_tick_out_should_be(1'b0);
         then_tx_next_should_be(9'h1FE);
         then_bit_next_should_be(4'd2);
         then_state_next_should_be(k_data1);

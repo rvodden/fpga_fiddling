@@ -12,6 +12,10 @@ task automatic next_data4(
             bit_next      = 4'b0;
             done_tick_out = 1'b1;
             ctr_next      = 16'b0;
+        end else begin
+            tx_next       = {tx_reg[7:0], 1'b0};
+            bit_next      = bit_reg + 1;
+            state_next    = k_data1;
         end
     end
 endtask

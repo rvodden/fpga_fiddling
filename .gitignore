@@ -1,0 +1,10 @@
+*.json 
+*.asc 
+*.bin
+*.vcd 
+*_tb 
+*_synth 
+*_test.v 
+*_test 
+*_tb 
+obj_dir/

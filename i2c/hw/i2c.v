@@ -154,11 +154,6 @@ module i2c (
         tx_next       = tx_reg;
         rx_next       = rx_reg;
         cmd_next      = cmd_reg;
-        done_tick_out = 1'b0;
-        ready_out     = 1'b0;
-        scl_out       = 1'b1;
-        sda_out       = 1'b1;
-        data_phase    = 1'b0;
 
         // state transitions
 
@@ -168,47 +163,97 @@ module i2c (
 
             // start contition is defined in section 3.1.4 of the I2C Spec (see intro)
 
-            k_start1: next_start1(
-            );
+            k_start1: next_start1();
+            k_start2: next_start2();
+
+            k_hold: next_hold();
+
+            k_data1: next_data1();
+            k_data2: next_data2();
+            k_data3: next_data3();
+            k_data4: next_data4();
+            k_data_end: next_data_end();
             
-            k_start2: next_start2(
-            );
+            k_restart: next_restart();
 
-            k_hold: next_hold(
-            );
+            k_stop1: next_stop1();
+            k_stop2: next_stop2();
 
-            k_data1: next_data1(
-            );
-
-            k_data2: next_data2(
-            );
-            
-            k_data3: next_data3(
-            );
-            
-            k_data4: next_data4(
-            );
-
-            k_data_end: next_data_end(
-            );
-            
-            k_restart: next_restart(
-            );
-
-            k_stop1: next_stop1(
-            );
-
-            k_stop2: next_stop2(
-            );
-
-            default: next_stop2(
-            ); // if we get an invalid command, give up and start again.
+            default: next_stop2(); // if we get an invalid command, give up and start again.
         endcase
     end
 
-
     // output wiring
+
+    always @(*) begin
     
+        // defaults
+        ready_out     = 1'b0;
+        scl_out       = 1'b1;
+        sda_out       = 1'b1;
+        done_tick_out = 1'b0;
+        data_phase    = 1'b0;
+    
+        case(state_reg)
+            k_idle: begin
+                ready_out = 1'b1;
+            end
+            
+            k_start1: begin
+                sda_out = 1'b0;
+            end 
+            
+            k_start2: begin
+                sda_out = 1'b0;
+                scl_out = 1'b0;
+            end
+            
+            k_hold: begin
+                ready_out = 1'b1;
+                sda_out   = 1'b0;
+                scl_out   = 1'b0;
+            end
+            
+            k_data1: begin
+                sda_out    = tx_reg[8];
+                scl_out    = 1'b0;
+                data_phase = 1'b1;
+            end
+            
+            k_data2: begin
+                sda_out    = tx_reg[8];
+                data_phase = 1'b1;
+            end
+            
+            k_data3: begin
+                sda_out    = tx_reg[8];
+                data_phase = 1'b1;
+            end
+            
+            k_data4: begin
+                sda_out    = tx_reg[8];
+                scl_out    = 1'b0;
+                data_phase = 1'b1;
+                if(bit_reg == 4'd8) done_tick_out = 1'b1;
+            end
+
+            k_data_end: begin
+                sda_out    = 1'b0;
+                scl_out    = 1'b0;
+            end
+
+            k_stop1: begin
+                sda_out = 1'b0;
+            end
+
+            k_stop2: begin // defaults are fine
+            end
+            
+            k_restart: begin // defaults are fine
+            end
+
+            default: begin // shouldn't ever get here
+            end
+        endcase
+    end
 endmodule
-
-

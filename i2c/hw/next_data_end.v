@@ -1,8 +1,5 @@
 task automatic next_data_end(
 );
-    sda_out    = 1'b0;
-    scl_out    = 1'b0;
-
     if(ctr_reg == clock_divisor_reg) begin // if we're quarter way through the SCL cycle
         ctr_next   = 16'b0;
         state_next = k_hold;

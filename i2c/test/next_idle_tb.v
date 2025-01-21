@@ -5,7 +5,6 @@ module next_idle_tb;
     reg [15:0] ctr_reg = 16'($random);
     reg [2:0]  cmd;
     
-    reg        ready_out;
     reg [3:0]  state_next;
     reg [15:0] ctr_next;
     
@@ -33,21 +32,18 @@ module next_idle_tb;
         #1
         then_state_next_should_be(k_start1);
         then_ctr_next_should_be(16'b0);
-        then_ready_out_should_be(1'b1);
         #1;
     endtask
 
     task test_stasis_in_k_idle_given_non_k_start_command;
         when_were_given_a_command(k_RESTART_CMD);
         #1
-        then_ready_out_should_be(1'b1);
         then_state_next_should_be(k_idle);
         then_ctr_next_should_be(ctr_reg + 1);
         #1
 
         when_were_given_a_command(k_STOP_CMD);
         #1
-        then_ready_out_should_be(1'b1);
         then_state_next_should_be(k_idle);
         then_ctr_next_should_be(ctr_reg + 1);
         
@@ -55,20 +51,17 @@ module next_idle_tb;
 
         when_were_given_a_command(k_READ_CMD);
         #1
-        then_ready_out_should_be(1'b1);
         then_state_next_should_be(k_idle);
         then_ctr_next_should_be(ctr_reg + 1);
         
         when_were_given_a_command(k_WRITE_CMD);
         #1
-        then_ready_out_should_be(1'b1);
         then_state_next_should_be(k_idle);
         then_ctr_next_should_be(ctr_reg + 1);
     endtask
 
     `include "test/steps/cmd_steps.v"
     `include "test/steps/ctr_next_steps.v"
-    `include "test/steps/ready_out_steps.v"
     `include "test/steps/state_next_steps.v"
     
 

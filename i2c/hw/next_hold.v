@@ -2,10 +2,6 @@
 
 task automatic next_hold(
 );
-    ready_out = 1'b1;
-    sda_out   = 1'b0;
-    scl_out   = 1'b0;
-
     if(write) begin
         cmd_next = cmd;
         ctr_next = 16'b0;

@@ -21,7 +21,7 @@ obj_dir/%_tb: test/%_tb.v hw/%.v
 
 test: obj_dir/i2c_tb obj_dir/next_idle_tb obj_dir/next_start1_tb obj_dir/next_start2_tb \
 	obj_dir/next_hold_tb obj_dir/next_data1_tb obj_dir/next_data2_tb obj_dir/next_data3_tb obj_dir/next_data4_tb \
-	obj_dir/next_restart_tb obj_dir/next_stop1_tb obj_dir/next_stop2_tb 
+	obj_dir/next_data_end_tb obj_dir/next_restart_tb obj_dir/next_stop1_tb obj_dir/next_stop2_tb 
 	./obj_dir/next_idle_tb
 	./obj_dir/next_start1_tb
 	./obj_dir/next_start2_tb

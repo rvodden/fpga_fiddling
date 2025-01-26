@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+<testsuite timestamp="2025-01-26T08:26:45" hostname="LargePixelCollider" package="demo1" id="0" name="default" tests="1" errors="0" failures="0" time="0" skipped="0">
+<properties>
+<property name="os" value="Linux"/>
+<property name="expect" value="PASS"/>
+<property name="status" value="PASS"/>
+</properties>
+<testcase classname="default" name="build execution" time="0">
+</testcase>
+<testcase classname="default" name="Property ASSERT in demo1 at demo1.v:21.4-23.52" time="0" type="ASSERT" location="demo1.v:21.4-23.52" id="_witness_.check_assert_demo1_v_21_6">
+</testcase>
+<system-out>SBY  8:26:45 [demo1] Removing directory '/home/rvodden/Source/fpga_fiddling/formal_methods/demo1'.
+SBY  8:26:45 [demo1] Copy '/home/rvodden/Source/fpga_fiddling/formal_methods/demo1.v' to '/home/rvodden/Source/fpga_fiddling/formal_methods/demo1/src/demo1.v'.
+SBY  8:26:45 [demo1] engine_0: smtbmc
+SBY  8:26:45 [demo1] base: starting process &quot;cd demo1/src; yosys -ql ../model/design.log ../model/design.ys&quot;
+SBY  8:26:45 [demo1] base: Warning: wire '\reset' is assigned in a block at demo1.v:8.9-8.21.
+SBY  8:26:45 [demo1] base: demo1.v:8: Warning: Identifier `\reset' is implicitly declared.
+SBY  8:26:45 [demo1] base: finished (returncode=0)
+SBY  8:26:45 [demo1] prep: starting process &quot;cd demo1/model; yosys -ql design_prep.log design_prep.ys&quot;
+SBY  8:26:45 [demo1] prep: finished (returncode=0)
+SBY  8:26:45 [demo1] smt2: starting process &quot;cd demo1/model; yosys -ql design_smt2.log design_smt2.ys&quot;
+SBY  8:26:45 [demo1] smt2: finished (returncode=0)
+SBY  8:26:45 [demo1] engine_0: starting process &quot;cd demo1; yosys-smtbmc --presat --unroll --noprogress -t 10  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2&quot;
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Solver: yices
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 0..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 0..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 1..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 1..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 2..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 2..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 3..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 3..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 4..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 4..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 5..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 5..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 6..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 6..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 7..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 7..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 8..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 8..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assumptions in step 9..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Checking assertions in step 9..
+SBY  8:26:45 [demo1] engine_0: ##   0:00:00  Status: passed
+SBY  8:26:45 [demo1] engine_0: finished (returncode=0)
+SBY  8:26:45 [demo1] engine_0: Status returned by engine: pass
+SBY  8:26:45 [demo1] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY  8:26:45 [demo1] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY  8:26:45 [demo1] summary: engine_0 (smtbmc) returned pass
+SBY  8:26:45 [demo1] summary: engine_0 did not produce any traces
+SBY  8:26:45 [demo1] DONE (PASS, rc=0)
+</system-out>
+<system-err>
+</system-err>
+</testsuite>
+</testsuites>

@@ -1,0 +1,202 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2024  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.48+47 (git sha1 cbb95cb51, clang++ 18.1.8 -fPIC -O3)
+
+-- Executing script file `../model/design.ys' --
+
+1. Executing Verilog-2005 frontend: demo1.v
+Parsing formal SystemVerilog input from `demo1.v' to AST representation.
+Storing AST representation for module `$abstract\demo1'.
+Successfully finished Verilog frontend.
+
+2. Executing PREP pass.
+
+2.1. Executing HIERARCHY pass (managing design hierarchy).
+
+2.2. Executing AST frontend in derive mode using pre-parsed AST for module `\demo1'.
+Generating RTLIL representation for module `\demo1'.
+Warning: wire '\reset' is assigned in a block at demo1.v:8.9-8.21.
+demo1.v:8: Warning: Identifier `\reset' is implicitly declared.
+
+2.2.1. Analyzing design hierarchy..
+Top module:  \demo1
+
+2.2.2. Analyzing design hierarchy..
+Top module:  \demo1
+Removing unused module `$abstract\demo1'.
+Removed 1 unused modules.
+Module demo1 directly or indirectly contains formal properties -> setting "keep" attribute.
+
+2.3. Executing PROC pass (convert processes to netlists).
+
+2.3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+2.3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$demo1.v:12$3 in module demo1.
+Removed a total of 0 dead cases.
+
+2.3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 2 assignments to connections.
+
+2.3.4. Executing PROC_INIT pass (extract init attributes).
+
+2.3.5. Executing PROC_ARST pass (detect async resets in processes).
+
+2.3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~2 debug messages>
+
+2.3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\demo1.$proc$demo1.v:0$11'.
+Creating decoders for process `\demo1.$proc$demo1.v:12$3'.
+     1/1: $0\cntr[1:0]
+Creating decoders for process `\demo1.$proc$demo1.v:9$2'.
+
+2.3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\demo1.\reset' from process `\demo1.$proc$demo1.v:0$11'.
+
+2.3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\demo1.\cntr' using process `\demo1.$proc$demo1.v:12$3'.
+  created $dff cell `$procdff$17' with positive edge clock.
+Creating register for signal `\demo1.\reset_' using process `\demo1.$proc$demo1.v:9$2'.
+  created $dff cell `$procdff$18' with positive edge clock.
+
+2.3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+2.3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `demo1.$proc$demo1.v:0$11'.
+Found and cleaned up 2 empty switches in `\demo1.$proc$demo1.v:12$3'.
+Removing empty process `demo1.$proc$demo1.v:12$3'.
+Removing empty process `demo1.$proc$demo1.v:9$2'.
+Cleaned up 2 empty switches.
+
+2.3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module demo1.
+
+2.4. Executing FUTURE pass.
+
+2.5. Executing OPT_EXPR pass (perform const folding).
+Optimizing module demo1.
+
+2.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \demo1..
+Removed 0 unused cells and 5 unused wires.
+<suppressed ~1 debug messages>
+
+2.7. Executing CHECK pass (checking for obvious problems).
+Checking module demo1...
+Found and reported 0 problems.
+
+2.8. Executing OPT pass (performing simple optimizations).
+
+2.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module demo1.
+
+2.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\demo1'.
+Removed a total of 0 cells.
+
+2.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \demo1..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~1 debug messages>
+
+2.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \demo1.
+Performed a total of 0 changes.
+
+2.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\demo1'.
+Removed a total of 0 cells.
+
+2.8.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \demo1..
+
+2.8.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module demo1.
+
+2.8.8. Finished OPT passes. (There is nothing left to do.)
+
+2.9. Executing WREDUCE pass (reducing word size of cells).
+Removed top 31 bits (of 32) from port B of cell demo1.$add$demo1.v:16$5 ($add).
+Removed top 30 bits (of 32) from port Y of cell demo1.$add$demo1.v:16$5 ($add).
+Removed top 30 bits (of 32) from wire demo1.$add$demo1.v:16$5_Y.
+
+2.10. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \demo1..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+2.11. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+2.12. Executing OPT pass (performing simple optimizations).
+
+2.12.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module demo1.
+
+2.12.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\demo1'.
+Removed a total of 0 cells.
+
+2.12.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \demo1..
+
+2.12.4. Finished fast OPT passes.
+
+2.13. Printing statistics.
+
+=== demo1 ===
+
+   Number of wires:                 13
+   Number of wire bits:             17
+   Number of public wires:           4
+   Number of public wire bits:       5
+   Number of ports:                  1
+   Number of port bits:              1
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 12
+     $add                            1
+     $check                          1
+     $dff                            2
+     $eq                             1
+     $initstate                      1
+     $logic_not                      1
+     $logic_or                       2
+     $mux                            2
+     $ne                             1
+
+2.14. Executing CHECK pass (checking for obvious problems).
+Checking module demo1...
+Found and reported 0 problems.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `demo1'. Setting top module to demo1.
+
+3.1. Analyzing design hierarchy..
+Top module:  \demo1
+
+3.2. Analyzing design hierarchy..
+Top module:  \demo1
+Removed 0 unused modules.
+Module demo1 directly or indirectly contains formal properties -> setting "keep" attribute.
+
+4. Executing jny backend.
+
+5. Executing RTLIL backend.
+Output filename: ../model/design.il
+
+Warnings: 2 unique messages, 2 total
+End of script. Logfile hash: ebc4115865, CPU: user 0.02s system 0.00s, MEM: 16.49 MB peak
+Yosys 0.48+47 (git sha1 cbb95cb51, clang++ 18.1.8 -fPIC -O3)
+Time spent: 27% 5x opt_expr (0 sec), 17% 4x opt_clean (0 sec), ...

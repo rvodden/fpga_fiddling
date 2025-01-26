@@ -1,0 +1,8 @@
+# running in demo1/src/
+read -formal demo1.v
+prep -top demo1
+
+hierarchy -smtcheck
+rename -witness
+write_jny -no-connections ../model/design.json
+write_rtlil ../model/design.il

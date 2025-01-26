@@ -18,7 +18,7 @@ module i2c_m(
     // localparam k_em_increment     = 8'h2;
     // localparam k_em_display_shift = 8'h1;
 
-    localparam k_prog_end         = 7'd83;
+    localparam k_prog_end         = 7'd76;
 
     // ROM
 

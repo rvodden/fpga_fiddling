@@ -57,7 +57,7 @@ CONFIG_SEQUENCE = [
     CLEAR_DISPLAY
 ]
 
-CHAR_SEQENCE = "kate"
+CHAR_SEQENCE = "poo"
 
 def write_8bit(value: int, rs_rw: int = 0x00) -> list[int]:
     reg = rs_rw | BACKLIGHT_PIN

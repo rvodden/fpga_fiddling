@@ -11,8 +11,8 @@
  *          reset: resets all the registers to an initial state - it is asynchronous
  *          write: when set the external system asserts that the inputs are in a valid
  *                 state and can be stored in internal registers
- *  clock_divisor: set this to half the number of clk cycles in an SCL cycle. So
- *                 if you have a 48MHz clk and you want a 100KHz SCL set this to 480.
+ *  clock_divisor: set this to quarter the number of clk cycles in an SCL cycle. So
+ *                 if you have a 48MHz clk and you want a 100KHz SCL set this to 120.
  *        data_in: this is the data to be sent during write operations, the LSB is used
  *                 for ack/nack during read operations
  *            cmd: 000: start; 001: restart; 002: stop; 003: read; 004 write;
@@ -45,7 +45,8 @@ module i2c (
     output       done_tick,
     
     inout        SDA,
-    output       SCL );
+    output       SCL 
+);
 
 /* Parameters */
 
@@ -94,7 +95,7 @@ module i2c (
     assign receiving = data_phase && ( (cmd_reg == k_READ_CMD && bit_reg < 8) || (cmd_reg == k_WRITE_CMD && bit_reg == 8) );
 
     // update the output registers on clk or reset
-    always @(posedge clk or posedge reset) begin
+    always @(posedge clk) begin
         if(reset) begin
             scl_reg <= 1'b1;
             sda_reg <= 1'b1;
@@ -125,7 +126,7 @@ module i2c (
 
     // registers
 
-    always @(posedge clk or posedge reset)
+    always @(posedge clk)
         if (reset) begin
             state_reg <= k_idle;
             bit_reg   <=  4'b0;

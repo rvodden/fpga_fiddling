@@ -1,0 +1,29 @@
+# For the iCE40 UltraPlus (iCE40UP5K-QFN) Breakout Board
+
+set_io LED[0] 25
+set_io LED[1] 23
+set_io LED[2] 27
+set_io LED[3] 26
+set_io LED[4] 28
+set_io LED[5] 31
+set_io LED[6] 32
+set_io LED[7] 34
+
+set_io SW0 37
+set_io SW1 42
+set_io SW2 43
+set_io SW3 38
+
+set_io CLK 35
+#set_frequency CLK 12
+
+#spi
+#set_io -pullup yes -pullup_resistor 3P3K SPI_SS   16
+#set_io -pullup yes -pullup_resistor 3P3K SPI_SCK  15
+#set_io -pullup yes -pullup_resistor 3P3K SPI_MOSI 17
+#set_io -pullup yes -pullup_resistor 3P3K SPI_MISO 14
+
+#set_io -pullup yes -pullup_resistor 3P3K SDA 16
+#set_io -pullup yes -pullup_resistor 3P3K SCL 15
+set_io -pullup yes -pullup_resistor 3P3K SDA 4
+set_io -pullup yes -pullup_resistor 3P3K SCL 3

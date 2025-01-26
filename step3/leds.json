@@ -9649,7 +9649,7 @@
           "direction": "input",
           "bits": [ 2 ]
         },
-        "LEDS": {
+        "LED": {
           "direction": "output",
           "bits": [ 3, 4, 5, 6, 7 ]
         }
@@ -11065,7 +11065,7 @@
             "Q": [ 29 ]
           }
         },
-        "leds_SB_DFFSR_Q": {
+        "led_SB_DFFSR_Q": {
           "hide_name": 0,
           "type": "SB_DFFSR",
           "parameters": {
@@ -11087,7 +11087,7 @@
             "R": [ 73 ]
           }
         },
-        "leds_SB_DFFSR_Q_R_SB_LUT4_I0": {
+        "led_SB_DFFSR_Q_R_SB_LUT4_I0": {
           "hide_name": 0,
           "type": "SB_LUT4",
           "parameters": {
@@ -11112,7 +11112,7 @@
             "O": [ 76 ]
           }
         },
-        "leds_SB_DFFSR_Q_R_SB_LUT4_I2": {
+        "led_SB_DFFSR_Q_R_SB_LUT4_I2": {
           "hide_name": 0,
           "type": "SB_LUT4",
           "parameters": {
@@ -11137,7 +11137,7 @@
             "O": [ 77 ]
           }
         },
-        "leds_SB_DFFSR_Q_R_SB_LUT4_O": {
+        "led_SB_DFFSR_Q_R_SB_LUT4_O": {
           "hide_name": 0,
           "type": "SB_LUT4",
           "parameters": {
@@ -11162,7 +11162,7 @@
             "O": [ 73 ]
           }
         },
-        "leds_SB_DFF_Q": {
+        "led_SB_DFF_Q": {
           "hide_name": 0,
           "type": "SB_DFF",
           "parameters": {
@@ -11182,7 +11182,7 @@
             "Q": [ 6 ]
           }
         },
-        "leds_SB_DFF_Q_1": {
+        "led_SB_DFF_Q_1": {
           "hide_name": 0,
           "type": "SB_DFF",
           "parameters": {
@@ -11202,7 +11202,7 @@
             "Q": [ 5 ]
           }
         },
-        "leds_SB_DFF_Q_2": {
+        "led_SB_DFF_Q_2": {
           "hide_name": 0,
           "type": "SB_DFF",
           "parameters": {
@@ -11222,7 +11222,7 @@
             "Q": [ 4 ]
           }
         },
-        "leds_SB_DFF_Q_3": {
+        "led_SB_DFF_Q_3": {
           "hide_name": 0,
           "type": "SB_DFF",
           "parameters": {
@@ -11242,7 +11242,7 @@
             "Q": [ 3 ]
           }
         },
-        "leds_SB_DFF_Q_D_SB_LUT4_O": {
+        "led_SB_DFF_Q_D_SB_LUT4_O": {
           "hide_name": 0,
           "type": "SB_LUT4",
           "parameters": {
@@ -11267,7 +11267,7 @@
             "O": [ 80 ]
           }
         },
-        "leds_SB_DFF_Q_D_SB_LUT4_O_1": {
+        "led_SB_DFF_Q_D_SB_LUT4_O_1": {
           "hide_name": 0,
           "type": "SB_LUT4",
           "parameters": {
@@ -11292,7 +11292,7 @@
             "O": [ 81 ]
           }
         },
-        "leds_SB_DFF_Q_D_SB_LUT4_O_2": {
+        "led_SB_DFF_Q_D_SB_LUT4_O_2": {
           "hide_name": 0,
           "type": "SB_LUT4",
           "parameters": {
@@ -11664,11 +11664,11 @@
             "src": "leds.v:33.21-37.5|clockworks.v:9.17-9.25"
           }
         },
-        "LEDS": {
+        "LED": {
           "hide_name": 0,
           "bits": [ 3, 4, 5, 6, 7 ],
           "attributes": {
-            "src": "leds.v:5.20-5.24"
+            "src": "leds.v:5.20-5.23"
           }
         },
         "div_clk": {
@@ -11678,14 +11678,14 @@
             "src": "leds.v:11.9-11.16"
           }
         },
-        "leds": {
+        "led": {
           "hide_name": 0,
           "bits": [ 3, 4, 5, 6, 7 ],
           "attributes": {
-            "src": "leds.v:10.14-10.18"
+            "src": "leds.v:10.14-10.17"
           }
         },
-        "leds_SB_DFFSR_Q_R": {
+        "led_SB_DFFSR_Q_R": {
           "hide_name": 0,
           "bits": [ 73, 72, 74, 75 ],
           "attributes": {
@@ -11693,7 +11693,7 @@
             "src": "/usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22"
           }
         },
-        "leds_SB_DFF_Q_D": {
+        "led_SB_DFF_Q_D": {
           "hide_name": 0,
           "bits": [ 82, 77, 81, 80, 91 ],
           "attributes": {

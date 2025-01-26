@@ -2,12 +2,12 @@
 
 module SOC (
       input  CLK,        
-      output [4:0] LEDS
+      output [4:0] LED
 );
 
    reg [4:0] MEM [0:12];
    reg [4:0] pc = 0;
-   reg [4:0] leds = 0;
+   reg [4:0] led = 0;
    wire div_clk;
 
    initial begin
@@ -26,7 +26,7 @@ module SOC (
    end
 
    always @(posedge div_clk) begin
-      leds <= MEM[pc];
+      led <= MEM[pc];
       pc <= pc == 20 ? 5'b0 : pc + 1;
    end
 
@@ -36,7 +36,7 @@ module SOC (
       .DIV_CLK(div_clk)
    );
 
-   assign LEDS = leds;
+   assign LED = led;
 
 endmodule
 

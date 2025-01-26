@@ -10,16 +10,15 @@ set_io LED[6] 32
 set_io LED[7] 34
 
 set_io SW[0] 37
-set_io SW[1] 36
+set_io SW[1] 42
 set_io SW[2] 43
 set_io SW[3] 38
 
-
 set_io CLK 35
 
-
 #spi
-set_io SPI_SS 16
-set_io SPI_SCK 15
-set_io SPI_MOSI 17
-set_io SPI_MISO 14
+set_io -pullup yes -pullup_resistor 3P3K SPI_SS   16
+set_io -pullup yes -pullup_resistor 3P3K SPI_SCK  15
+set_io -pullup yes -pullup_resistor 3P3K SPI_MOSI 17
+set_io -pullup yes -pullup_resistor 3P3K SPI_MISO 14
+

@@ -1,14 +1,5 @@
 # For the iCE40 UltraPlus (iCE40UP5K-QFN) Breakout Board
 
-IOBUF PORT "led[0]" IO_TYPE=LVCMOS33;
-IOBUF PORT "led[1]" IO_TYPE=LVCMOS33;
-IOBUF PORT "led[2]" IO_TYPE=LVCMOS33;
-IOBUF PORT "led[3]" IO_TYPE=LVCMOS33;
-IOBUF PORT "led[4]" IO_TYPE=LVCMOS33;
-IOBUF PORT "led[5]" IO_TYPE=LVCMOS33;
-IOBUF PORT "led[6]" IO_TYPE=LVCMOS33;
-IOBUF PORT "led[7]" IO_TYPE=LVCMOS33;
-
 set_io LED[0] 25
 set_io LED[1] 23
 set_io LED[2] 27
@@ -18,10 +9,10 @@ set_io LED[5] 31
 set_io LED[6] 32
 set_io LED[7] 34
 
-set_io SW0 37
-set_io SW1 42
-set_io SW2 43
-set_io SW3 38
+set_io SW[0] 37
+set_io SW[1] 42
+set_io SW[2] 43
+set_io SW[3] 38
 
 set_io CLK 35
 #set_frequency CLK 12

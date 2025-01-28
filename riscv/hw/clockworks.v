@@ -1,4 +1,4 @@
-module Clockworks 
+module clockworks 
 (
    input  CLK,       // clock pin of the board
    output DIV_CLK    // (optionally divided) clock for the design.

@@ -5,7 +5,7 @@
 module soc_tb();
 
     reg CLK;
-    reg SW = 1'b1;
+    reg [2:0] SW = 3'b1;
     wire [7:0] LED;
 
     soc SOC(
@@ -22,6 +22,13 @@ module soc_tb();
             SOC.CPU.register_bank[i] = 0;
         end
         SOC.CPU.register_bank[2] = 32'd1;
+
+        SW = 3'b0;
+        wait(SOC.DIV_CLK);
+        SW = 3'b1;
+
+        #200;
+        $finish;
     end
    
     initial begin

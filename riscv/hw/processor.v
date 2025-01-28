@@ -3,13 +3,12 @@ module processor
     input         CLK,
     input         reset,
 
+    input  [31:0] memory_read_data,
+    output [31:0] memory_address,
+    output        memory_read_strobe,
+
     output [31:0] x1
 );
-
-    /*****
-      RAM
-     *****/
-    reg [31:0] MEM [0:255]; 
 
     /***********
       Registers
@@ -19,6 +18,13 @@ module processor
     reg [31:0] instruction;
     
     assign x1 = register_bank[1]; // expose an output so that we can see our CPU doing something.
+
+    /*******************
+      Memory Interface
+     *******************/
+
+    assign memory_address = programme_counter;
+    assign memory_read_strobe = (state == k_state_fetch_instruction);
 
     /*********************
       Instruction Decoder
@@ -44,8 +50,9 @@ module processor
      ***************/
 
     localparam k_state_fetch_instruction = 2'd0;
-    localparam k_state_fetch_registers   = 2'd1;
-    localparam k_state_execute           = 2'd2;
+    localparam k_state_wait_instruction  = 2'd1;
+    localparam k_state_fetch_registers   = 2'd2;
+    localparam k_state_execute           = 2'd3;
 
     reg  [31:0] rs1;
     reg  [31:0] rs2;
@@ -65,7 +72,10 @@ module processor
             
             case(state)
                 k_state_fetch_instruction: begin
-                    instruction <= MEM[programme_counter];
+                    state       <= k_state_wait_instruction;
+                end
+                k_state_wait_instruction: begin
+                    instruction <= memory_read_data;
                     state       <= k_state_fetch_registers;
                 end
                 k_state_fetch_registers: begin
@@ -101,4 +111,4 @@ module processor
         endcase
     end
 
-endmodule;
+endmodule

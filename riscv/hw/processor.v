@@ -31,9 +31,11 @@ module processor
      *********************/
 
     localparam k_opcode_ALUreg = 7'b0110011;
+    localparam k_opcode_ALUimm = 7'b0010011;
 
     wire [6:0] opcode = instruction[6:0];
     wire isALUreg = (opcode == k_opcode_ALUreg );
+    wire isALUimm = {opcode == k_opcode_ALUimm };
 
     // R-Type operands
 
@@ -44,6 +46,11 @@ module processor
     wire [2:0] funct3 = instruction[14:12];
     wire [6:0] funct7 = instruction[31:25];
 
+
+    // I-Type operands
+
+    wire [31:0] iImm  = { {21{instruction[31]}}, instruction[30:20] };
+    
 
     /*************** 
       State Machine 
@@ -98,15 +105,15 @@ module processor
      ***********************/
 
     wire [31:0] alu_in_1 = rs1;
-    wire [31:0] alu_in_2 = rs2;
+    wire [31:0] alu_in_2 = isALUreg ? rs2 : iImm;
     reg  [31:0] alu_out;
     
-    assign write_back_enable = isALUreg && (state == k_state_execute);
+    assign write_back_enable = (isALUreg || isALUimm)  && (state == k_state_execute);
     assign write_back_data = alu_out;
 
     always @(*) begin
         case(funct3)
-            3'b000: alu_out = (funct7[5]) ? (alu_in_1 - alu_in_2) : (alu_in_1 + alu_in_2);
+            3'b000: alu_out = (isALUreg & funct7[5]) ? (alu_in_1 - alu_in_2) : (alu_in_1 + alu_in_2);
             default: alu_out = 32'h0;
         endcase
     end

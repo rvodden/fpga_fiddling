@@ -27,7 +27,7 @@ module soc_tb();
         wait(SOC.DIV_CLK);
         SW = 3'b1;
 
-        #200;
+        #500;
         $finish;
     end
    

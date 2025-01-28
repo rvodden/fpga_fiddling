@@ -8,22 +8,22 @@ module memory (
 
     reg [31:0] MEM[SIZE:0];
 
-    `include "riscv_assembler.v"
+    `include "hw/riscv_assembler.v"
     initial begin
-        ADD(x0,x0,x0);
-        ADD(x1,x0,x0);
-        ADD(x0,x0,x0);
-        ADD(x1,x0,x0);
-        ADD(x0,x0,x0);
-        ADD(x1,x0,x0);
-        ADD(x0,x0,x0);
-        ADD(x1,x0,x0);
-        ADD(x0,x0,x0);
-        ADD(x1,x0,x0);
-        ADD(x0,x0,x0);
-        ADD(x1,x0,x0);
-        ADD(x0,x0,x0);
-        ADD(x1,x0,x0);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
     end
 
     always @(posedge CLK) begin

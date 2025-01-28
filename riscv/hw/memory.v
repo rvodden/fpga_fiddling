@@ -10,13 +10,18 @@ module memory (
 
     `include "hw/riscv_assembler.v"
     initial begin
+        LI(x1, 0);
+        NOP();
+        ADDI(x1, x1, 1);
+        ADDI(x1, x1, 1);
+        NOP();
         ADDI(x1, x1, 1);
         ADDI(x1, x1, 1);
         ADDI(x1, x1, 1);
+        NOP();
         ADDI(x1, x1, 1);
         ADDI(x1, x1, 1);
-        ADDI(x1, x1, 1);
-        ADDI(x1, x1, 1);
+        LI(x1, 3);
         ADDI(x1, x1, 1);
         ADDI(x1, x1, 1);
         ADDI(x1, x1, 1);

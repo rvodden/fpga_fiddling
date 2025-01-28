@@ -19,6 +19,10 @@ localparam
     t2 = 7;
 
 
+/********************
+ R-Type Instructions
+ ********************/
+
 task RType;
    input [6:0] opcode;
    input [4:0] rd;   
@@ -39,6 +43,9 @@ task ADD;
     RType(7'b0110011, rd, rs1, rs2, 3'b000, 7'b0000000);
 endtask
 
+/*********************
+  I-Type Instructions
+ *********************/
 
 task IType;
    input [6:0]  opcode;
@@ -59,5 +66,28 @@ task ADDI;
     IType(7'b0010011, rd, rs1, imm, 3'b000);
 endtask
 
+/*****************************
+ * I-Type Pseudo Instructions
+ *****************************/
+
+ task NOP;
+    ADDI(zero, zero, 0);
+ endtask
+
+ task LI;
+    input [4:0]  rd;
+    input [31:0] imm;
+    if(imm == 0)
+        ADD(rd, zero, zero);
+    else if ( ( $signed(imm) >= -2048 ) && ( $signed(imm) < 2048 ) )
+        ADDI(rd, zero, imm); 
+    else $error("LUI is not yet implemented - cannot handle immediate values outside of [-2048, 2048)");
+ endtask
+
+ task MV;
+    input [4:0] rd;
+    input [4:0] rs;
+    ADD(rd, rs, 0);
+ endtask
 
 /* verilator lint_on UNUSEDPARAM */

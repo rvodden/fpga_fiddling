@@ -104,9 +104,10 @@ module processor
       Arithmetic Logic Unit 
      ***********************/
 
-    wire [31:0] alu_in_1 = rs1;
-    wire [31:0] alu_in_2 = isALUreg ? rs2 : iImm;
+    wire [31:0] alu_in_1         = rs1;
+    wire [31:0] alu_in_2         = isALUreg ? rs2 : iImm;
     reg  [31:0] alu_out;
+    wire  [4:0] alu_shift_amount = isALUreg ? rs2[4:0] : instruction[24:20]; 
     
     assign write_back_enable = (isALUreg || isALUimm)  && (state == k_state_execute);
     assign write_back_data = alu_out;
@@ -114,6 +115,13 @@ module processor
     always @(*) begin
         case(funct3)
             3'b000: alu_out = (isALUreg & funct7[5]) ? (alu_in_1 - alu_in_2) : (alu_in_1 + alu_in_2);
+            3'b001: alu_out = alu_in_1 << alu_shift_amount;
+            3'b010: alu_out = ( $signed(alu_in_1) < $signed(alu_in_2));
+            3'b011: alu_out = (alu_in_1 < alu_in_2);
+            3'b100: alu_out = (alu_in_1 ^ alu_in_2);
+            3'b101: alu_out = funct7[5] ? ( $signed(alu_in_1) >>> alu_shift_amount ) : ( $signed(alu_in_2) >> alu_shift_amount );
+            3'b110: alu_out = (alu_in_1 | alu_in_2);
+            3'b111: alu_out = (alu_in_1 & alu_in_2);
             default: alu_out = 32'h0;
         endcase
     end

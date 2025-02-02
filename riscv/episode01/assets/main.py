@@ -21,14 +21,8 @@ from manim import (
     RIGHT
 )
 
-base03 = ManimColor("#002b36")
-base02 = ManimColor("#073642")
-base01 = ManimColor("#586e75")
-base00 = ManimColor("#657b83")
-base0  = ManimColor("#839496")
-base1  = ManimColor("#93a1a1")
-base2  = ManimColor("#eee8d5")
-base3  = ManimColor("#fdf6e3")
+from common import *
+
 
 int_to_four_bytes = struct.Struct('>I').pack
 
@@ -92,9 +86,6 @@ class SubField(VGroup):
 class Default(Scene):
     def construct(self):
 
-        style = {
-            "font_size": 40
-        }
         text = Text("Instruction Set Encoding\nfrom assembly to machine code", font_size=48)
         self.play(FadeIn(text))
 
